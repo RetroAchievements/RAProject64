@@ -46,13 +46,13 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(SolutionDir)PropertySheets\Platform.$(Configuration).props" />
   </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration.Substring(0,3))'=='RA-'">
+    <TargetName>RA$(ProjectName)</TargetName>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <PropertyGroup>
     <GenerateManifest>false</GenerateManifest>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration.Substring(0,3))'=='RA-'">
-    <TargetName>RA$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
@@ -84,6 +84,13 @@ $(ProjectDir)..\..\RAInterface\MakeBuildVer.bat $(ProjectDir)RA_BuildVer.h RAPro
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\RAInterface\RA_Interface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
+      <PrecompiledHeader Condition="'$(Configuration.Substring(0,3))'=='RA-'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="RetroAchievements.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="UserInterface\About.cpp" />
     <ClCompile Include="UserInterface\Debugger\CPULog.cpp" />
     <ClCompile Include="UserInterface\Debugger\Debugger-CPULogView.cpp" />
