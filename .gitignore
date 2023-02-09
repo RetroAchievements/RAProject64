@@ -95,5 +95,6 @@ Thumbs.db
 /Source/Project64-core/Version.h
 /Source/Project64-input/Version.h
 /Source/Project64-video/Version.h
+/Source/Project64/RA_BuildVer.h
 /Source/RSP/Version.h
 /Android/app/src/main/assets/assets.zip
