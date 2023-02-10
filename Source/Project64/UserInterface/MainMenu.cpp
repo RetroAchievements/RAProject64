@@ -9,6 +9,10 @@
 #include <commdlg.h>
 #include <windows.h>
 
+#ifdef RETROACHIEVEMENTS
+#include "RetroAchievements.h"
+#endif
+
 CMainMenu::CMainMenu(CMainGui * hMainWindow) :
     CBaseMenu(),
     m_ResetAccelerators(true),
@@ -1468,6 +1472,10 @@ void CMainMenu::ResetMenu(void)
             RemoveMenu((HMENU)OldMenuHandle, (DWORD)g_Plugins->RSP()->GetDebugMenu(), MF_BYCOMMAND);
         }
         WriteTrace(TraceUserInterface, TraceDebug, "Destroy old menu");
+
+#ifdef RETROACHIEVEMENTS
+        RA_RebuildMenu();
+#endif
 
         // Destroy the old menu
         DestroyMenu((HMENU)OldMenuHandle);

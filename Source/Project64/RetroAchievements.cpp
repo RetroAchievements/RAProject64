@@ -29,7 +29,7 @@ static int GetMenuItemIndex(HMENU hMenu, const char* pItemName)
     return -1;
 }
 
-static void RebuildMenu()
+void RA_RebuildMenu()
 {
     HMENU hMainMenu = GetMenu(g_hWnd);
     if (!hMainMenu)
@@ -59,10 +59,10 @@ void RA_Init(HWND hMainWindow)
     g_hWnd = hMainWindow;
 
     // provide callbacks to the DLL
-    RA_InstallSharedFunctions(NULL, CauseUnpause, CausePause, RebuildMenu, GetEstimatedGameTitle, ResetEmulator, LoadROM);
+    RA_InstallSharedFunctions(NULL, CauseUnpause, CausePause, RA_RebuildMenu, GetEstimatedGameTitle, ResetEmulator, LoadROM);
 
     // add a placeholder menu item and start the login process - menu will be updated when login completes
-    RebuildMenu();
+    RA_RebuildMenu();
     RA_AttemptLogin(false);
 
     // ensure titlebar text matches expected format

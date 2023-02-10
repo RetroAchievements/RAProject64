@@ -4,7 +4,6 @@
 #include "../../RAInterface/RA_Interface.h"
 
 void RA_Init(HWND hMainWindow);
-void RA_IdentifyAndActivateGame();
-void RA_ProcessInputs();
+void RA_RebuildMenu();
 
 #endif __RETROACHIEVEMENTS_H_
