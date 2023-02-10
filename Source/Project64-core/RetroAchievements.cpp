@@ -4,14 +4,26 @@
 
 #include "../../RAInterface/RA_Consoles.h"
 #include "../../RAInterface/RA_Emulators.h"
+#include <Project64-core/N64System/N64System.h>
+#include <Project64-core/N64System/SystemGlobals.h>
+#include <Project64-core/Plugin.h>
 #include <Project64-core/RA_BuildVer.h>
 #include <Project64-core/Settings.h>
+#include <Project64-core/N64System/Mips/SystemEvents.h>
+#include <Project64-plugin-spec/Input.h>
 
 static HWND g_hWnd = nullptr;
 static const char* g_sFileBeingLoaded = nullptr;
 
-static void CauseUnpause() {}
-static void CausePause() {}
+static void CauseUnpause()
+{
+    g_BaseSystem->ExternalEvent(SysEvent_ResumeCPU_FromMenu);
+}
+
+static void CausePause()
+{
+    g_BaseSystem->ExternalEvent(SysEvent_PauseCPU_FromMenu);
+}
 
 static int GetMenuItemIndex(HMENU hMenu, const char* pItemName)
 {
@@ -78,7 +90,11 @@ void RA_IdentifyGame(const char* sFilename, uint8_t* pData, size_t nSize)
     g_sFileBeingLoaded = nullptr;
 }
 
-static void ResetEmulator() {}
+static void ResetEmulator()
+{
+    g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Hard);
+}
+
 static void LoadROM(const char* sFullPath) {}
 
 void RA_Init(HWND hMainWindow)
@@ -97,4 +113,25 @@ void RA_Init(HWND hMainWindow)
 
     // ensure titlebar text matches expected format
     RA_UpdateAppTitle("");
+}
+
+void RA_ProcessInputs()
+{
+    if (RA_IsOverlayFullyVisible())
+    {
+        BUTTONS Keys;
+        memset(&Keys, 0, sizeof(Keys));
+        g_Plugins->Control()->GetKeys(0, &Keys); // Get keys from 1st player controller.
+
+        ControllerInput input;
+        input.m_bUpPressed = Keys.U_DPAD;
+        input.m_bDownPressed = Keys.D_DPAD;
+        input.m_bLeftPressed = Keys.L_DPAD;
+        input.m_bRightPressed = Keys.R_DPAD;
+        input.m_bCancelPressed = Keys.B_BUTTON;
+        input.m_bConfirmPressed = Keys.A_BUTTON;
+        input.m_bQuitPressed = Keys.START_BUTTON;
+
+        RA_NavigateOverlay(&input);
+    }
 }

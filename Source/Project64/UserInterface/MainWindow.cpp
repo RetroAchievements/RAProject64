@@ -10,6 +10,7 @@
 #include <commctrl.h>
 
 #ifdef RETROACHIEVEMENTS
+#include <Project64-core/RetroAchievements.h>
 #include "../RAInterface/RA_Interface.h"
 #endif
 
@@ -432,6 +433,9 @@ WPARAM CMainGui::ProcessAllMessages(void)
         {
             continue;
         }
+#ifdef RETROACHIEVEMENTS
+        RA_ProcessInputs();
+#endif
         if (m_Menu->ProcessAccelerator(m_hMainWindow, &msg))
         {
             continue;

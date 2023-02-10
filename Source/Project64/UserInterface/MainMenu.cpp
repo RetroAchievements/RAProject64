@@ -354,6 +354,9 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         m_Gui->SaveWindowLoc();
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_PAUSE");
         g_BaseSystem->ExternalEvent(g_Settings->LoadBool(GameRunning_CPU_Paused) ? SysEvent_ResumeCPU_FromMenu : SysEvent_PauseCPU_FromMenu);
+#ifdef RETROACHIEVEMENTS
+        RA_SetPaused(!g_Settings->LoadBool(GameRunning_CPU_Paused));
+#endif
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_PAUSE 1");
         break;
     case ID_SYSTEM_BITMAP:
