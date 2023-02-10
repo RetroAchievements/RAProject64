@@ -70,10 +70,6 @@
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir)Config\Project64.cfg" (copy  "$(SolutionDir)Config\Project64.cfg.development" "$(SolutionDir)Config\Project64.cfg")</Command>
     </PreBuildEvent>
-    <PreBuildEvent Condition="'$(Configuration.Substring(0,3))'=='RA-'">
-      <Command>IF NOT EXIST "$(SolutionDir)Config\Project64.cfg" (copy  "$(SolutionDir)Config\Project64.cfg.development" "$(SolutionDir)Config\Project64.cfg")
-$(ProjectDir)..\..\RAInterface\MakeBuildVer.bat $(ProjectDir)RA_BuildVer.h RAProject64 RAPROJECT64</Command>
-    </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\3rdParty\asmjit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration.Substring(0,3))'=='RA-'">RETROACHIEVEMENTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>

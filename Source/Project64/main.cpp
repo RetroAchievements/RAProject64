@@ -4,6 +4,10 @@
 #include "UserInterface/WelcomeScreen.h"
 #include <Project64-core/AppInit.h>
 
+#ifdef RETROACHIEVEMENTS
+#include <Project64-core/RA_BuildVer.h>
+#endif
+
 int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpszArgs*/, int /*nWinMode*/)
 {
     try
@@ -18,7 +22,11 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
         // Create the main window with menu
 
         WriteTrace(TraceUserInterface, TraceDebug, "Create main window");
+#ifdef RETROACHIEVEMENTS
+        CMainGui MainWindow(true, stdstr_f("RAProject64 %s", RAPROJECT64_VERSION_SHORT).c_str()), HiddenWindow(false);
+#else
         CMainGui MainWindow(true, stdstr_f("Project64 %s", VER_FILE_VERSION_STR).c_str()), HiddenWindow(false);
+#endif
         CMainMenu MainMenu(&MainWindow);
         CDebuggerUI Debugger;
         g_Debugger = &Debugger;

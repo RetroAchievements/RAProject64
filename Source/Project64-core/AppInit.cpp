@@ -12,6 +12,10 @@
 #include <Project64-core/N64System/SystemGlobals.h>
 #include <Project64-core/Plugins/Plugin.h>
 
+#ifdef RETROACHIEVEMENTS 
+#include "RA_BuildVer.h"
+#endif
+
 static void FixDirectories(void);
 void SetTraceModuleNames(void);
 
@@ -173,7 +177,11 @@ void TraceDone(void)
 
 const char * AppName(void)
 {
+#ifdef RETROACHIEVEMENTS
+    static stdstr_f ApplicationName("RAProject64 %s", RAPROJECT64_VERSION_SHORT);
+#else
     static stdstr_f ApplicationName("Project64 %s", VER_FILE_VERSION_STR);
+#endif
     return ApplicationName.c_str();
 }
 

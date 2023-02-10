@@ -2,6 +2,10 @@
 
 #include <Project64\UserInterface\About.h>
 
+#ifdef RETROACHIEVEMENTS
+#include <Project64-core/RA_BuildVer.h>
+#endif
+
 CAboutDlg::CAboutDlg(CProjectSupport & Support) :
     m_Support(Support)
 {
@@ -29,7 +33,11 @@ LRESULT CAboutDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
     lf.lfWeight += 200;
     m_BoldFont.CreateFontIndirect(&lf);
 
+#ifdef RETROACHIEVEMENTS
+    SetWindowDetais(IDC_VERSION, IDC_BMP_LOGO, stdstr_f("Version: %s (%s)", RAPROJECT64_VERSION_SHORT, VER_FILE_VERSION_STR).ToUTF16().c_str(), m_BoldFont);
+#else
     SetWindowDetais(IDC_VERSION, IDC_BMP_LOGO, stdstr_f("Version: %s", VER_FILE_VERSION_STR).ToUTF16().c_str(), m_BoldFont);
+#endif
     SetWindowDetais(IDC_ABOUT_PROJECT, IDC_VERSION, AboutMsg.ToUTF16().c_str(), m_TextFont);
     SetWindowDetais(IDC_THANKS_CORE, IDC_ABOUT_PROJECT, L"Special thanks to previous core members:", m_BoldFont);
     SetWindowDetais(IDC_CORE_THANK_LIST, IDC_THANKS_CORE, L"Jabo, Smiff, Gent", m_TextFont);
