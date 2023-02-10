@@ -14,6 +14,7 @@
 
 static HWND g_hWnd = nullptr;
 static const char* g_sFileBeingLoaded = nullptr;
+static unsigned int g_nGameId = 0;
 
 static void CauseUnpause()
 {
@@ -86,7 +87,7 @@ static void GetEstimatedGameTitle(char* sNameOut)
 void RA_IdentifyGame(const char* sFilename, uint8_t* pData, size_t nSize)
 {
     g_sFileBeingLoaded = sFilename;
-    RA_OnLoadNewRom(pData, nSize);
+    g_nGameId = RA_IdentifyRom(pData, nSize);
     g_sFileBeingLoaded = nullptr;
 }
 
@@ -113,6 +114,30 @@ void RA_Init(HWND hMainWindow)
 
     // ensure titlebar text matches expected format
     RA_UpdateAppTitle("");
+}
+
+static unsigned int RAMBlockReader(unsigned int nAddress, unsigned char* pBuffer, unsigned int nBytes)
+{
+    memcpy(pBuffer, &g_MMU->Rdram()[nAddress], nBytes);
+    return nBytes;
+}
+
+static unsigned char RAMByteReader(unsigned int nAddress)
+{
+    return g_MMU->Rdram()[nAddress];
+}
+
+static void RAMByteWriter(unsigned int nAddress, unsigned char nVal)
+{
+    g_MMU->Rdram()[nAddress] = nVal;
+}
+
+void RA_UpdateMemoryBanks()
+{
+    RA_ClearMemoryBanks();
+    RA_InstallMemoryBank(0, RAMByteReader, RAMByteWriter, g_MMU->RdramSize());
+    RA_InstallMemoryBankBlockReader(0, RAMBlockReader);
+    RA_ActivateGame(g_nGameId);
 }
 
 void RA_ProcessInputs()
