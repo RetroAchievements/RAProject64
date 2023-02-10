@@ -5,6 +5,7 @@
 #include <Project64-core/AppInit.h>
 
 #ifdef RETROACHIEVEMENTS
+#include "RetroAchievements.h"
 #include <Project64-core/RA_BuildVer.h>
 #endif
 
@@ -94,9 +95,17 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
             }
         }
 
+#ifdef RETROACHIEVEMENTS
+        RA_Init(reinterpret_cast<HWND>(MainWindow.GetWindowHandle()));
+#endif
+
         WriteTrace(TraceUserInterface, TraceDebug, "Entering message loop");
         MainWindow.ProcessAllMessages();
         WriteTrace(TraceUserInterface, TraceDebug, "Message loop finished");
+
+#ifdef RETROACHIEVEMENTS
+        RA_Shutdown();
+#endif
 
         if (g_BaseSystem)
         {

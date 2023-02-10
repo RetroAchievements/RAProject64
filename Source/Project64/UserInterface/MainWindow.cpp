@@ -9,6 +9,10 @@
 #include <Project64\UserInterface\About.h>
 #include <commctrl.h>
 
+#ifdef RETROACHIEVEMENTS
+#include "../RAInterface/RA_Interface.h"
+#endif
+
 void EnterLogOptions(HWND hwndOwner);
 
 #pragma comment(lib, "Comctl32.lib")
@@ -1167,6 +1171,13 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
                         }
                     }
                 }
+#ifdef RETROACHIEVEMENTS
+                else if (LOWORD(wParam) >= IDM_RA_MENUSTART && LOWORD(wParam) < IDM_RA_MENUEND)
+                {
+                    RA_InvokeDialog(LOWORD(wParam));
+                    return 0;
+                }
+#endif
                 else if (_this->m_Menu->ProcessMessage(hWnd, HIWORD(wParam), LOWORD(wParam)))
                 {
                     return true;
