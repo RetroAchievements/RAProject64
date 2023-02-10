@@ -5,8 +5,10 @@
 #include "../../RAInterface/RA_Consoles.h"
 #include "../../RAInterface/RA_Emulators.h"
 #include <Project64-core/RA_BuildVer.h>
+#include <Project64-core/Settings.h>
 
-static HWND g_hWnd;
+static HWND g_hWnd = nullptr;
+static const char* g_sFileBeingLoaded = nullptr;
 
 static void CauseUnpause() {}
 static void CausePause() {}
@@ -47,7 +49,35 @@ void RA_RebuildMenu()
     DrawMenuBar(g_hWnd);
 }
 
-static void GetEstimatedGameTitle(char* sNameOut) {}
+static void GetEstimatedGameTitle(char* sNameOut)
+{
+    if (g_sFileBeingLoaded != nullptr)
+    {
+        const char* sLastSlash = nullptr;
+        const char* sFilename = g_sFileBeingLoaded;
+        while (*sFilename) {
+            if (*sFilename == '\\')
+                sLastSlash = sFilename;
+
+            sFilename++;
+        }
+
+        sFilename = (sLastSlash) ? (sLastSlash + 1) : g_sFileBeingLoaded;
+        strncpy(sNameOut, sFilename, 256);
+    }
+    else
+    {
+        strncpy(sNameOut, "?", 256);
+    }
+}
+
+void RA_IdentifyGame(const char* sFilename, uint8_t* pData, size_t nSize)
+{
+    g_sFileBeingLoaded = sFilename;
+    RA_OnLoadNewRom(pData, nSize);
+    g_sFileBeingLoaded = nullptr;
+}
+
 static void ResetEmulator() {}
 static void LoadROM(const char* sFullPath) {}
 

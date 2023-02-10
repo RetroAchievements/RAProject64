@@ -80,13 +80,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\RAInterface\RA_Interface.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
-      <PrecompiledHeader Condition="'$(Configuration.Substring(0,3))'=='RA-'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="RetroAchievements.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="UserInterface\About.cpp" />
     <ClCompile Include="UserInterface\Debugger\CPULog.cpp" />
     <ClCompile Include="UserInterface\Debugger\Debugger-CPULogView.cpp" />

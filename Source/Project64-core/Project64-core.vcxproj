@@ -67,6 +67,13 @@ $(SolutionDir)RAInterface\MakeBuildVer.bat $(ProjectDir)RA_BuildVer.h RAProject6
     <ClCompile Include="3rdParty\7zip.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\RAInterface\RA_Interface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
+      <PrecompiledHeader Condition="'$(Configuration.Substring(0,3))'=='RA-'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="RetroAchievements.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="AppInit.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="MemoryExceptionFilter.cpp" />

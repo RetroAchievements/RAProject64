@@ -10,7 +10,7 @@
 #include <windows.h>
 
 #ifdef RETROACHIEVEMENTS
-#include "RetroAchievements.h"
+#include <Project64-core/RetroAchievements.h>
 #endif
 
 CMainMenu::CMainMenu(CMainGui * hMainWindow) :

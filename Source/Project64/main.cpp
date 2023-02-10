@@ -5,7 +5,7 @@
 #include <Project64-core/AppInit.h>
 
 #ifdef RETROACHIEVEMENTS
-#include "RetroAchievements.h"
+#include <Project64-core/RetroAchievements.h>
 #include <Project64-core/RA_BuildVer.h>
 #endif
 

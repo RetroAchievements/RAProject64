@@ -14,7 +14,7 @@
 #endif
 
 #ifdef RETROACHIEVEMENTS
-#include "../RAInterface/RA_Interface.h"
+#include "RetroAchievements.h"
 #endif
 
 CN64Rom::CN64Rom() :
@@ -130,7 +130,7 @@ bool CN64Rom::AllocateAndLoadN64Image(const char * FileLoc, bool LoadBootCodeOnl
     ByteSwapRom();
 
 #ifdef RETROACHIEVEMENTS
-    RA_OnLoadNewRom(m_ROMImage, m_RomFileSize);
+    RA_IdentifyGame(FileLoc, m_ROMImage, m_RomFileSize);
 #endif
 
     // Protect the memory so that it can't be written to
@@ -225,7 +225,7 @@ bool CN64Rom::AllocateAndLoadZipImage(const char * FileLoc, bool LoadBootCodeOnl
             ByteSwapRom();
 
 #ifdef RETROACHIEVEMENTS
-            RA_OnLoadNewRom(m_ROMImage, m_RomFileSize);
+            RA_IdentifyGame(zname, m_ROMImage, m_RomFileSize);
 #endif
 
             // Protect the memory so that it can't be written to
