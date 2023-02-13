@@ -269,6 +269,11 @@ void CMainMenu::OnSaveAs(HWND hWnd)
 
 void CMainMenu::OnLodState(HWND hWnd)
 {
+#ifdef RETROACHIEVEMENTS
+    if (!RA_WarnDisableHardcore("load a state"))
+        return;
+#endif
+
     g_BaseSystem->ExternalEvent(SysEvent_PauseCPU_LoadGame);
 
     char Directory[255];
@@ -386,6 +391,10 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         break;
     case ID_SYSTEM_SAVEAS: OnSaveAs(hWnd); break;
     case ID_SYSTEM_RESTORE:
+#ifdef RETROACHIEVEMENTS
+        if (!RA_WarnDisableHardcore("load a state"))
+            break;
+#endif
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESTORE");
         g_BaseSystem->ExternalEvent(SysEvent_LoadMachineState);
         break;

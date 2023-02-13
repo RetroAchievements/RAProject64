@@ -11,6 +11,7 @@
 #include <Project64-core/Settings.h>
 #include <Project64-core/N64System/Mips/SystemEvents.h>
 #include <Project64-plugin-spec/Input.h>
+#include <Project64/UserInterface/Debugger/debugger.h>
 
 static HWND g_hWnd = nullptr;
 static const char* g_sFileBeingLoaded = nullptr;
@@ -94,9 +95,11 @@ void RA_IdentifyGame(const char* sFilename, uint8_t* pData, size_t nSize)
 static void ResetEmulator()
 {
     g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Hard);
+
+    ((CDebuggerUI*)g_Debugger)->Debug_Reset();
 }
 
-static void LoadROM(const char* sFullPath) {}
+static void LoadROM(const char*) {}
 
 void RA_Init(HWND hMainWindow)
 {
