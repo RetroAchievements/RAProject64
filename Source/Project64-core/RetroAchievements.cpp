@@ -94,9 +94,17 @@ void RA_IdentifyGame(const char* sFilename, uint8_t* pData, size_t nSize)
 
 static void ResetEmulator()
 {
-    g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Hard);
+    if (RA_HardcoreModeIsActive())
+    {
+        // close all of the debugger windows
+        ((CDebuggerUI*)g_Debugger)->Debug_Reset();
 
-    ((CDebuggerUI*)g_Debugger)->Debug_Reset();
+        // ensure speed is not lower than default (function will cap at default internally)
+        g_BaseSystem->SetSpeed(g_BaseSystem->GetSpeed());
+    }
+
+    // reset emulator
+    g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Hard);
 }
 
 static void LoadROM(const char*) {}
