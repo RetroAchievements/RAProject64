@@ -2038,6 +2038,11 @@ bool CN64System::SaveState()
     {
         SaveFile = ZipFile;
     }
+
+#ifdef RETROACHIEVEMENTS
+    RA_OnSaveState(SaveFile);
+#endif
+
     g_Notify->DisplayMessage(3, stdstr_f("%s %s", g_Lang->GetString(MSG_SAVED_STATE).c_str(), stdstr(SaveFile.GetNameExtension()).c_str()).c_str());
     WriteTrace(TraceN64System, TraceDebug, "Done");
     return true;
@@ -2333,6 +2338,10 @@ bool CN64System::LoadState(const char * FileName)
             hExtraInfo.Close();
         }
     }
+
+#ifdef RETROACHIEVEMENTS
+    RA_OnLoadState(SaveFile);
+#endif
 
     // Fix losing audio in certain games with certain plugins
     AudioResetOnLoad = g_Settings->LoadBool(Game_AudioResetOnLoad);
