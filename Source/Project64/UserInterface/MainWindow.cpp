@@ -435,6 +435,8 @@ WPARAM CMainGui::ProcessAllMessages(void)
         }
 #ifdef RETROACHIEVEMENTS
         RA_ProcessInputs();
+
+        if (GetForegroundWindow() == m_hMainWindow) // prevent calling ProcessAccelerator if an RA window has focus
 #endif
         if (m_Menu->ProcessAccelerator(m_hMainWindow, &msg))
         {
