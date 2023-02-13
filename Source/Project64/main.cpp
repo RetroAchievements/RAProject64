@@ -80,7 +80,9 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
 
         if (!isROMLoaded)
         {
+#ifndef RETROACHIEVEMENTS
             CSupportWindow(MainWindow.Support()).Show((HWND)MainWindow.GetWindowHandle(), true);
+#endif
             if (UISettingsLoadBool(RomBrowser_Enabled))
             {
                 WriteTrace(TraceUserInterface, TraceDebug, "Show ROM browser");
