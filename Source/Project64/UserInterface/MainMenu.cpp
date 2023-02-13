@@ -153,6 +153,11 @@ void CMainMenu::ShortCutsChanged(void)
 
 void CMainMenu::OnOpenRom(HWND hWnd)
 {
+#ifdef RETROACHIEVEMENTS
+    if (!RA_ConfirmLoadNewRom(false))
+        return;
+#endif
+
     std::string File = ChooseFileToOpen(hWnd);
     if (File.length() == 0)
     {
@@ -204,6 +209,11 @@ void CMainMenu::OnRomInfo(HWND hWnd)
 
 void CMainMenu::OnEndEmulation(void)
 {
+#ifdef RETROACHIEVEMENTS
+    if (!RA_ConfirmLoadNewRom(false))
+        return;
+#endif
+
     WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ENDEMULATION");
     if (g_BaseSystem)
     {
@@ -346,7 +356,13 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ROMDIRECTORY 3");
         break;
     case ID_FILE_REFRESHROMLIST: m_Gui->RefreshRomList(); break;
-    case ID_FILE_EXIT: DestroyWindow((HWND)hWnd); break;
+    case ID_FILE_EXIT:
+#ifdef RETROACHIEVEMENTS
+        if (!RA_ConfirmLoadNewRom(true))
+            break;
+#endif
+        DestroyWindow((HWND)hWnd);
+        break;
     case ID_SYSTEM_RESET_SOFT:
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESET_SOFT");
         g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Soft);
@@ -622,6 +638,10 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
     default:
         if (MenuID >= ID_RECENT_ROM_START && MenuID < ID_RECENT_ROM_END)
         {
+#ifdef RETROACHIEVEMENTS
+            if (!RA_ConfirmLoadNewRom(false))
+                return false;
+#endif
             stdstr FileName;
             if (UISettingsLoadStringIndex(File_RecentGameFileIndex, MenuID - ID_RECENT_ROM_START, FileName) && FileName.length() > 0)
             {

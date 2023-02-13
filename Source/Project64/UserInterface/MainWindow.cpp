@@ -951,6 +951,10 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
         _this->MakeWindowOnTop(false);
         _this->SetStatusText(0, L"");
         _this->SetStatusText(1, L"");
+
+#ifdef RETROACHIEVEMENTS
+        RA_ActivateGame(0);
+#endif
     }
     break;
     case WM_JSAPI_ACTION:
@@ -1217,6 +1221,12 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
         }
     }
     break;
+#ifdef RETROACHIEVEMENTS
+    case WM_CLOSE:
+        if (!RA_ConfirmLoadNewRom(true))
+            return 0;
+        return DefWindowProc(hWnd, uMsg, wParam, lParam);
+#endif
     case WM_DESTROY:
         WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - start");
         {
