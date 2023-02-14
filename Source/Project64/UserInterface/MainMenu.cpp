@@ -306,11 +306,21 @@ void CMainMenu::OnLodState(HWND hWnd)
 
 void CMainMenu::OnEnhancements(HWND /*hWnd*/)
 {
+#ifdef RETROACHIEVEMENTS
+    if (!RA_WarnDisableHardcore("use enhancements"))
+        return;
+#endif
+
     m_Gui->DisplayEnhancements(false);
 }
 
 void CMainMenu::OnCheats(HWND /*hWnd*/)
 {
+#ifdef RETROACHIEVEMENTS
+    if (!RA_WarnDisableHardcore("use cheats"))
+        return;
+#endif
+
     m_Gui->DisplayCheatsUI(false);
 }
 
@@ -418,6 +428,10 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
     case ID_SYSTEM_ENHANCEMENT: OnEnhancements(hWnd); break;
     case ID_SYSTEM_CHEAT: OnCheats(hWnd); break;
     case ID_SYSTEM_GSBUTTON:
+#ifdef RETROACHIEVEMENTS
+        if (!RA_WarnDisableHardcore("press the GS button"))
+            break;
+#endif
         g_BaseSystem->ExternalEvent(SysEvent_GSButtonPressed);
         break;
     case ID_OPTIONS_DISPLAY_FR:

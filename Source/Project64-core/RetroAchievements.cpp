@@ -4,6 +4,7 @@
 
 #include "../../RAInterface/RA_Consoles.h"
 #include "../../RAInterface/RA_Emulators.h"
+#include <Project64-core/N64System/Enhancement/Enhancements.h>
 #include <Project64-core/N64System/N64System.h>
 #include <Project64-core/N64System/SystemGlobals.h>
 #include <Project64-core/Plugin.h>
@@ -98,6 +99,9 @@ static void ResetEmulator()
     {
         // close all of the debugger windows
         ((CDebuggerUI*)g_Debugger)->Debug_Reset();
+
+        // force cheats to be reapplied (hardcore mode will prevent)
+        g_Enhancements->UpdateCheats();
 
         // ensure speed is not lower than default (function will cap at default internally)
         g_BaseSystem->SetSpeed(g_BaseSystem->GetSpeed());

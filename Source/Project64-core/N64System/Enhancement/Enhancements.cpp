@@ -13,6 +13,10 @@
 #include <Project64-core/Plugins/Plugin.h>
 #include <Project64-core/Plugins/RSPPlugin.h>
 
+#ifdef RETROACHIEVEMENTS
+#include "../RAInterface/RA_Interface.h"
+#endif
+
 CEnhancements::GAMESHARK_CODE::GAMESHARK_CODE(const GAMESHARK_CODE & rhs)
 {
     m_Command = rhs.m_Command;
@@ -281,8 +285,18 @@ void CEnhancements::LoadActive(CMipsMemoryVM * MMU, CPlugins * Plugins)
     m_OverClockModifier = 1;
 
     ResetCodes(MMU);
+
+#ifdef RETROACHIEVEMENTS
+    if (!RA_HardcoreModeIsActive())
+    {
+#endif
+
     LoadActive(m_Cheats, nullptr);
     LoadActive(m_Enhancements, Plugins);
+
+#ifdef RETROACHIEVEMENTS
+    }
+#endif
 
     CGameSettings::SetOverClockModifier(m_OverClock, m_OverClockModifier);
 }
