@@ -34,7 +34,7 @@ LRESULT CAboutDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
     m_BoldFont.CreateFontIndirect(&lf);
 
 #ifdef RETROACHIEVEMENTS
-    SetWindowDetais(IDC_VERSION, IDC_BMP_LOGO, stdstr_f("Version: %s (%s)", RAPROJECT64_VERSION_SHORT, VER_FILE_VERSION_STR).ToUTF16().c_str(), m_BoldFont);
+    SetWindowDetais(IDC_VERSION, IDC_BMP_LOGO, stdstr_f("RAProject64 Version: %s\nProject64 version: %s", RAPROJECT64_VERSION_SHORT, VER_FILE_VERSION_STR).ToUTF16().c_str(), m_BoldFont);
 #else
     SetWindowDetais(IDC_VERSION, IDC_BMP_LOGO, stdstr_f("Version: %s", VER_FILE_VERSION_STR).ToUTF16().c_str(), m_BoldFont);
 #endif

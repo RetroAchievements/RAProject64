@@ -52,7 +52,7 @@
       <Command>"$(SolutionDir)Source\Script\UpdateVersion.cmd" "$(Configuration)" "$(Platform)" "$(SolutionDir)Source\Project64-core\Version.h.in" "$(SolutionDir)Source\Project64-core\Version.h"</Command>
     </PreBuildEvent>
     <PreBuildEvent Condition="'$(Configuration.Substring(0,3))'=='RA-'">
-      <Command>"$(SolutionDir)Source\Script\UpdateVersion.cmd" "$(Configuration.SubString(3))" "$(Platform)" "$(SolutionDir)Source\Project64-core\Version.h.in" "$(SolutionDir)Source\Project64-core\Version.h"
+      <Command>if not exist "$(SolutionDir)Source\Project64-core\Version.h" ("$(SolutionDir)Source\Script\UpdateVersion.cmd" "$(Configuration.SubString(3))" "$(Platform)" "$(SolutionDir)Source\Project64-core\Version.h.in" "$(SolutionDir)Source\Project64-core\Version.h")
 $(SolutionDir)RAInterface\MakeBuildVer.bat $(ProjectDir)RA_BuildVer.h RAProject64 RAPROJECT64</Command>
     </PreBuildEvent>
     <Lib>
