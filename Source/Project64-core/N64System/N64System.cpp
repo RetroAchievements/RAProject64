@@ -1321,6 +1321,9 @@ void CN64System::CpuStopped()
     if (!m_InReset)
     {
 #ifdef RETROACHIEVEMENTS
+        if (RA_IsOverlayFullyVisible())
+            RA_SetPaused(false);
+
         RA_ActivateGame(0);
 #endif
 
