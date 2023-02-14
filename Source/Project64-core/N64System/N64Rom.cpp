@@ -130,9 +130,12 @@ bool CN64Rom::AllocateAndLoadN64Image(const char * FileLoc, bool LoadBootCodeOnl
     ByteSwapRom();
 
 #ifdef RETROACHIEVEMENTS
-    CalculateCicChip();
-    if (!IsLoadedRomDDIPL())
-        RA_IdentifyGame(FileLoc, m_ROMImage, m_RomFileSize);
+    if (!LoadBootCodeOnly)
+    {
+        CalculateCicChip();
+        if (!IsLoadedRomDDIPL())
+            RA_IdentifyGame(FileLoc, m_ROMImage, m_RomFileSize);
+    }
 #endif
 
     // Protect the memory so that it can't be written to
