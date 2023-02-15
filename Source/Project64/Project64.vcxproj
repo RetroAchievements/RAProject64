@@ -74,6 +74,9 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Source\3rdParty\asmjit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration.Substring(0,3))'=='RA-'">RETROACHIEVEMENTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions Condition="'$(Configuration.Substring(0,3))'=='RA-'">RETROACHIEVEMENTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
     <PostBuildEvent>
       <Command Condition="'$(Configuration)'=='Release'">"$(SolutionDir)\Source\Script\clang.cmd" check</Command>
       <Command Condition="'$(Configuration.Substring(0,3))'=='RA-'">$(ProjectDir)..\..\RAInterface\CopyOverlay.bat $(TargetDir)</Command>
