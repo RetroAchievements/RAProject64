@@ -434,8 +434,6 @@ WPARAM CMainGui::ProcessAllMessages(void)
             continue;
         }
 #ifdef RETROACHIEVEMENTS
-        RA_ProcessInputs();
-
         if (GetForegroundWindow() == m_hMainWindow) // prevent calling ProcessAccelerator if an RA window has focus
 #endif
         if (m_Menu->ProcessAccelerator(m_hMainWindow, &msg))
@@ -444,6 +442,22 @@ WPARAM CMainGui::ProcessAllMessages(void)
         }
         TranslateMessage(&msg);
         DispatchMessage(&msg);
+
+#ifdef RETROACHIEVEMENTS
+        if (RA_IsOverlayFullyVisible())
+        {
+            // have to use PeekMessage loop to pass controller inputs to DLL
+            // only do so when the overlay is fully visible
+            do {
+                RA_ProcessInputs();
+
+                if (PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE))
+                    break;
+
+                Sleep(10); // 60fps = 16ms/frame
+            } while (1);
+        }
+#endif
     }
     return msg.wParam;
 }

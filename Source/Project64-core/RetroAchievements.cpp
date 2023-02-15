@@ -157,21 +157,18 @@ void RA_UpdateMemoryBanks()
 
 void RA_ProcessInputs()
 {
-    if (RA_IsOverlayFullyVisible())
-    {
-        BUTTONS Keys;
-        memset(&Keys, 0, sizeof(Keys));
-        g_Plugins->Control()->GetKeys(0, &Keys); // Get keys from 1st player controller.
+    BUTTONS Keys;
+    memset(&Keys, 0, sizeof(Keys));
+    g_Plugins->Control()->GetKeys(0, &Keys); // Get keys from 1st player controller.
 
-        ControllerInput input;
-        input.m_bUpPressed = Keys.U_DPAD;
-        input.m_bDownPressed = Keys.D_DPAD;
-        input.m_bLeftPressed = Keys.L_DPAD;
-        input.m_bRightPressed = Keys.R_DPAD;
-        input.m_bCancelPressed = Keys.B_BUTTON;
-        input.m_bConfirmPressed = Keys.A_BUTTON;
-        input.m_bQuitPressed = Keys.START_BUTTON;
+    ControllerInput input;
+    input.m_bUpPressed = Keys.U_DPAD;
+    input.m_bDownPressed = Keys.D_DPAD;
+    input.m_bLeftPressed = Keys.L_DPAD;
+    input.m_bRightPressed = Keys.R_DPAD;
+    input.m_bCancelPressed = Keys.B_BUTTON;
+    input.m_bConfirmPressed = Keys.A_BUTTON;
+    input.m_bQuitPressed = Keys.START_BUTTON;
 
-        RA_NavigateOverlay(&input);
-    }
+    RA_NavigateOverlay(&input);
 }
