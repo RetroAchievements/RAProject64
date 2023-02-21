@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="Platform.props" />
+    <Import Project="Release.props" />
+  </ImportGroup>
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)bin\Release\</OutDir>
+    <IntDir>$(SolutionDir)build\Release\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x64'">
+    <OutDir>$(SolutionDir)bin\Release64\</OutDir>
+    <IntDir>$(SolutionDir)build\Release64\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+</Project>

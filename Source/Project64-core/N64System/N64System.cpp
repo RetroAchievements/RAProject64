@@ -21,6 +21,11 @@
 #include <utime.h>
 #endif
 
+#ifdef RETROACHIEVEMENTS
+#include <Project64-core/RetroAchievements.h>
+#include "../../../RAInterface/RA_Interface.h"
+#endif
+
 #pragma warning(disable : 4355) // Disable 'this' : used in base member initializer list
 
 CN64System::CN64System(CPlugins * Plugins, uint32_t randomizer_seed, bool SavesReadOnly, bool SyncSystem) :
@@ -627,6 +632,11 @@ void CN64System::RunLoadedImage(void)
     {
         WriteTrace(TraceN64System, TraceError, "Failed to create CN64System");
     }
+
+#ifdef RETROACHIEVEMENTS
+    RA_UpdateMemoryBanks();
+#endif
+
     WriteTrace(TraceN64System, TraceDebug, "Done");
 }
 
@@ -1310,6 +1320,13 @@ void CN64System::CpuStopped()
     WriteTrace(TraceN64System, TraceDebug, "Start");
     if (!m_InReset)
     {
+#ifdef RETROACHIEVEMENTS
+        if (RA_IsOverlayFullyVisible())
+            RA_SetPaused(false);
+
+        RA_ActivateGame(0);
+#endif
+
         g_Settings->SaveBool(GameRunning_CPU_Running, (uint32_t) false);
         g_Notify->DisplayMessage(5, MSG_EMULATION_ENDED);
     }
@@ -2024,6 +2041,11 @@ bool CN64System::SaveState()
     {
         SaveFile = ZipFile;
     }
+
+#ifdef RETROACHIEVEMENTS
+    RA_OnSaveState(SaveFile);
+#endif
+
     g_Notify->DisplayMessage(3, stdstr_f("%s %s", g_Lang->GetString(MSG_SAVED_STATE).c_str(), stdstr(SaveFile.GetNameExtension()).c_str()).c_str());
     WriteTrace(TraceN64System, TraceDebug, "Done");
     return true;
@@ -2319,6 +2341,10 @@ bool CN64System::LoadState(const char * FileName)
             hExtraInfo.Close();
         }
     }
+
+#ifdef RETROACHIEVEMENTS
+    RA_OnLoadState(SaveFile);
+#endif
 
     // Fix losing audio in certain games with certain plugins
     AudioResetOnLoad = g_Settings->LoadBool(Game_AudioResetOnLoad);
@@ -2662,6 +2688,10 @@ void CN64System::RefreshScreen()
         m_FPS.Reset(true);
         m_bCleanFrameBox = false;
     }
+
+#ifdef RETROACHIEVEMENTS
+    RA_DoAchievementsFrame();
+#endif
 
     if (bShowCPUPer())
     {

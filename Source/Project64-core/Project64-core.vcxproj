@@ -9,6 +9,22 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Debug|Win32">
+      <Configuration>RA-Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Debug|x64">
+      <Configuration>RA-Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Release|Win32">
+      <Configuration>RA-Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Release|x64">
+      <Configuration>RA-Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -35,16 +51,28 @@
     <PreBuildEvent>
       <Command>"$(SolutionDir)Source\Script\UpdateVersion.cmd" "$(Configuration)" "$(Platform)" "$(SolutionDir)Source\Project64-core\Version.h.in" "$(SolutionDir)Source\Project64-core\Version.h"</Command>
     </PreBuildEvent>
+    <PreBuildEvent Condition="'$(Configuration.Substring(0,3))'=='RA-'">
+      <Command>if not exist "$(SolutionDir)Source\Project64-core\Version.h" ("$(SolutionDir)Source\Script\UpdateVersion.cmd" "$(Configuration.SubString(3))" "$(Platform)" "$(SolutionDir)Source\Project64-core\Version.h.in" "$(SolutionDir)Source\Project64-core\Version.h")
+$(SolutionDir)RAInterface\MakeBuildVer.bat $(ProjectDir)RA_BuildVer.h RAProject64 RAPROJECT64</Command>
+    </PreBuildEvent>
     <Lib>
       <AdditionalOptions>/ignore:4221%(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\3rdParty\asmjit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration.Substring(0,3))'=='RA-'">RETROACHIEVEMENTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\7zip.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\RAInterface\RA_Interface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
+      <PrecompiledHeader Condition="'$(Configuration.Substring(0,3))'=='RA-'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="RetroAchievements.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration.Substring(0,3))'!='RA-'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="AppInit.cpp" />
     <ClCompile Include="Logging.cpp" />
