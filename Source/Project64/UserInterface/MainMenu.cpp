@@ -384,10 +384,10 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
     case ID_SYSTEM_PAUSE:
         m_Gui->SaveWindowLoc();
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_PAUSE");
-        g_BaseSystem->ExternalEvent(g_Settings->LoadBool(GameRunning_CPU_Paused) ? SysEvent_ResumeCPU_FromMenu : SysEvent_PauseCPU_FromMenu);
 #ifdef RETROACHIEVEMENTS
         RA_SetPaused(!g_Settings->LoadBool(GameRunning_CPU_Paused));
 #endif
+        g_BaseSystem->ExternalEvent(g_Settings->LoadBool(GameRunning_CPU_Paused) ? SysEvent_ResumeCPU_FromMenu : SysEvent_PauseCPU_FromMenu);
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_PAUSE 1");
         break;
     case ID_SYSTEM_BITMAP:
@@ -500,6 +500,10 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
             WriteTrace(TraceUserInterface, TraceDebug, "ID_OPTIONS_FULLSCREEN b 3");
             UISettingsSaveBool(UserInterface_InFullScreen, true);
             WriteTrace(TraceUserInterface, TraceDebug, "ID_OPTIONS_FULLSCREEN b 6");
+
+#ifdef RETROACHIEVEMENTS
+            RA_UpdateHWnd(reinterpret_cast<HWND>(m_Gui->GetWindowHandle()));
+#endif
         }
         WriteTrace(TraceUserInterface, TraceDebug, "ID_OPTIONS_FULLSCREEN 1");
         break;

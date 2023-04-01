@@ -95,6 +95,9 @@ void RA_IdentifyGame(const char* sFilename, uint8_t* pData, size_t nSize)
 
 static void ResetEmulator()
 {
+    if (!g_BaseSystem)
+        return;
+
     if (RA_HardcoreModeIsActive())
     {
         // close all of the debugger windows
