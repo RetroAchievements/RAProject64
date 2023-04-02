@@ -967,10 +967,6 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, WPARAM wParam, LP
         _this->MakeWindowOnTop(false);
         _this->SetStatusText(0, L"");
         _this->SetStatusText(1, L"");
-
-#ifdef RETROACHIEVEMENTS
-        RA_ActivateGame(0);
-#endif
     }
     break;
     case WM_JSAPI_ACTION:
