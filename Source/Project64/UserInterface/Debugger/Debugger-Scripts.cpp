@@ -28,12 +28,15 @@ LRESULT CDebugScripts::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*l
     DlgSavePos_Init(DebuggerUI_ScriptsPos);
     DlgToolTip_Init();
 
-    m_MonoFont = CreateFont(-12, 0, 0, 0,
+    CDC hDC = GetDC();
+    float DPIScale = hDC.GetDeviceCaps(LOGPIXELSX) / 96.0f;
+
+    m_MonoFont = CreateFont((int)(-12 * DPIScale), 0, 0, 0,
                             FW_DONTCARE, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
                             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                             CLEARTYPE_QUALITY, FF_DONTCARE, L"Consolas");
 
-    m_MonoBoldFont = CreateFont(-13, 0, 0, 0,
+    m_MonoBoldFont = CreateFont((int)(-13 * DPIScale), 0, 0, 0,
                                 FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
                                 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                                 CLEARTYPE_QUALITY, FF_DONTCARE, L"Consolas");
@@ -41,7 +44,7 @@ LRESULT CDebugScripts::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*l
     m_ScriptList.Attach(GetDlgItem(IDC_SCRIPT_LIST));
     m_ScriptList.AddColumn(L"Status", 0);
     m_ScriptList.AddColumn(L"Script", 1);
-    m_ScriptList.SetColumnWidth(0, 16);
+    m_ScriptList.SetColumnWidth(0, (int)(16 * DPIScale));
     m_ScriptList.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
     m_ScriptList.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
     m_ScriptList.ModifyStyle(LVS_OWNERDRAWFIXED, 0, 0);
@@ -199,7 +202,7 @@ void CDebugScripts::ConsoleCopy()
         return;
     }
 
-    m_ConOutputEdit.GetWindowText(memBuf, nChars);
+    m_ConOutputEdit.GetWindowText(memBuf, (int)((INT_PTR)(nChars)));
 
     GlobalUnlock(hMem);
     SetClipboardData(CF_UNICODETEXT, hMem);
@@ -358,7 +361,7 @@ LRESULT CDebugScripts::OnScriptListCustomDraw(NMHDR * pNMHDR)
         return CDRF_DODEFAULT;
     }
 
-    DWORD nItem = pLVCD->nmcd.dwItemSpec;
+    DWORD nItem = (DWORD)pLVCD->nmcd.dwItemSpec;
 
     wchar_t scriptName[MAX_PATH];
     m_ScriptList.GetItemText(nItem, 1, scriptName, MAX_PATH);
@@ -533,7 +536,7 @@ LRESULT CDebugScripts::OnInputSpecialKey(NMHDR * pNMHDR)
         {
             wchar_t * code = m_InputHistory[--m_InputHistoryIndex];
             m_ConInputEdit.SetWindowText(code);
-            int selEnd = wcslen(code);
+            int selEnd = (int)((INT_PTR)wcslen(code));
             m_ConInputEdit.SetSel(selEnd, selEnd);
         }
 
@@ -553,7 +556,7 @@ LRESULT CDebugScripts::OnInputSpecialKey(NMHDR * pNMHDR)
         {
             wchar_t * code = m_InputHistory[m_InputHistoryIndex];
             m_ConInputEdit.SetWindowText(code);
-            int selEnd = wcslen(code);
+            int selEnd = (int)((INT_PTR)(wcslen(code)));
             m_ConInputEdit.SetSel(selEnd, selEnd);
         }
         else
@@ -574,7 +577,7 @@ LRESULT CDebugScripts::OnInputSpecialKey(NMHDR * pNMHDR)
         }
 
         wchar_t * code = new wchar_t[codeLength + 1];
-        m_ConInputEdit.GetWindowText(code, codeLength + 1);
+        m_ConInputEdit.GetWindowText(code, (int)((INT_PTR)(codeLength + 1)));
         m_ConInputEdit.SetWindowText(L"");
 
         SendInput(m_SelectedScriptName.c_str(), stdstr().FromUTF16(code).c_str());
