@@ -472,7 +472,9 @@ void CShortCuts::Load(bool InitialValues)
         m_ShortCuts.find(ID_CURRENT_SAVE_9)->second.AddShortCut('9', false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_CURRENT_SAVE_10)->second.AddShortCut('0', false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_OPTIONS_FULLSCREEN)->second.AddShortCut(VK_RETURN, false, true, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
+#ifndef RETROACHIEVEMENTS
         m_ShortCuts.find(ID_OPTIONS_FULLSCREEN)->second.AddShortCut(VK_ESCAPE, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
+#endif
         m_ShortCuts.find(ID_OPTIONS_ALWAYSONTOP)->second.AddShortCut('A', true, false, false, CMenuShortCutKey::ACCESS_GAME_NOT_RUNNING);
         m_ShortCuts.find(ID_OPTIONS_ALWAYSONTOP)->second.AddShortCut('A', true, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING_WINDOW);
         m_ShortCuts.find(ID_OPTIONS_SETTINGS)->second.AddShortCut('T', true, false, false, CMenuShortCutKey::ACCESS_GAME_NOT_RUNNING);
@@ -481,6 +483,9 @@ void CShortCuts::Load(bool InitialValues)
         m_ShortCuts.find(ID_SYSTEM_RESET_HARD)->second.AddShortCut(VK_F1, false, false, true, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_SYSTEM_PAUSE)->second.AddShortCut(VK_F2, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_SYSTEM_PAUSE)->second.AddShortCut(VK_PAUSE, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
+#ifdef RETROACHIEVEMENTS
+        m_ShortCuts.find(ID_SYSTEM_PAUSE)->second.AddShortCut(VK_ESCAPE, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
+#endif
         m_ShortCuts.find(ID_SYSTEM_BITMAP)->second.AddShortCut(VK_F3, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_SYSTEM_LIMITFPS)->second.AddShortCut(VK_F4, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_SYSTEM_SWAPDISK)->second.AddShortCut('D', true, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING_WINDOW);

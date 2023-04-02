@@ -9,6 +9,22 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Debug|Win32">
+      <Configuration>RA-Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Debug|x64">
+      <Configuration>RA-Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Release|Win32">
+      <Configuration>RA-Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RA-Release|x64">
+      <Configuration>RA-Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -21,6 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7E534C8E-1ACE-4A88-8807-39A11ED4DA18}</ProjectGuid>
     <RootNamespace>Project64</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -29,6 +46,9 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(SolutionDir)PropertySheets\Platform.$(Configuration).props" />
   </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration.Substring(0,3))'=='RA-'">
+    <TargetName>RA$(ProjectName)</TargetName>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <PropertyGroup>
@@ -42,6 +62,7 @@
       <StackReserveSize>1</StackReserveSize>
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <LargeAddressAware>true</LargeAddressAware>
+      <AdditionalDependencies Condition="'$(Configuration.Substring(0,3))'=='RA-'">winhttp.lib;%(AdditionalDependencies);$(DelayImplib)</AdditionalDependencies>
     </Link>
     <Manifest Condition="'$(PlatformToolset)'!='v90'">
       <EnableDPIAwareness>true</EnableDPIAwareness>
@@ -51,9 +72,14 @@
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\3rdParty\asmjit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration.Substring(0,3))'=='RA-'">RETROACHIEVEMENTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions Condition="'$(Configuration.Substring(0,3))'=='RA-'">RETROACHIEVEMENTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
     <PostBuildEvent>
       <Command Condition="'$(Configuration)'=='Release'">"$(SolutionDir)\Source\Script\clang.cmd" check</Command>
+      <Command Condition="'$(Configuration.Substring(0,3))'=='RA-'">$(ProjectDir)..\..\RAInterface\CopyOverlay.bat $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

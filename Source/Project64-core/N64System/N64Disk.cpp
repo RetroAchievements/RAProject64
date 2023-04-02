@@ -8,6 +8,10 @@
 #include <Project64-core/N64System/Mips/Register.h>
 #include <memory>
 
+#ifdef RETROACHIEVEMENTS
+#include "RetroAchievements.h"
+#endif
+
 CN64Disk::CN64Disk() :
     m_DiskImage(nullptr),
     m_DiskImageBase(nullptr),
@@ -376,6 +380,10 @@ bool CN64Disk::AllocateAndLoadDiskImage(const char * FileLoc)
         }
 
         DetectSystemArea();
+
+#ifdef RETROACHIEVEMENTS
+        RA_IdentifyGame(FileLoc, m_DiskImage, m_DiskFileSize);
+#endif
 
         g_Notify->DisplayMessage(5, MSG_BYTESWAP);
         ByteSwapDisk();

@@ -4,6 +4,11 @@
 #include "UserInterface/WelcomeScreen.h"
 #include <Project64-core/AppInit.h>
 
+#ifdef RETROACHIEVEMENTS
+#include <Project64-core/RetroAchievements.h>
+#include <Project64-core/RA_BuildVer.h>
+#endif
+
 int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpszArgs*/, int /*nWinMode*/)
 {
     try
@@ -18,7 +23,11 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
         // Create the main window with menu
 
         WriteTrace(TraceUserInterface, TraceDebug, "Create main window");
+#ifdef RETROACHIEVEMENTS
+        CMainGui MainWindow(true, stdstr_f("RAProject64 %s", RAPROJECT64_VERSION_SHORT).c_str()), HiddenWindow(false);
+#else
         CMainGui MainWindow(true, stdstr_f("Project64 %s", VER_FILE_VERSION_STR).c_str()), HiddenWindow(false);
+#endif
         CMainMenu MainMenu(&MainWindow);
         CDebuggerUI Debugger;
         g_Debugger = &Debugger;
@@ -71,7 +80,9 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
 
         if (!isROMLoaded)
         {
+#ifndef RETROACHIEVEMENTS
             CSupportWindow(MainWindow.Support()).Show((HWND)MainWindow.GetWindowHandle(), true);
+#endif
             if (UISettingsLoadBool(RomBrowser_Enabled))
             {
                 WriteTrace(TraceUserInterface, TraceDebug, "Show ROM browser");
@@ -86,9 +97,17 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
             }
         }
 
+#ifdef RETROACHIEVEMENTS
+        RA_Init(reinterpret_cast<HWND>(MainWindow.GetWindowHandle()));
+#endif
+
         WriteTrace(TraceUserInterface, TraceDebug, "Entering message loop");
         MainWindow.ProcessAllMessages();
         WriteTrace(TraceUserInterface, TraceDebug, "Message loop finished");
+
+#ifdef RETROACHIEVEMENTS
+        RA_Shutdown();
+#endif
 
         if (g_BaseSystem)
         {
