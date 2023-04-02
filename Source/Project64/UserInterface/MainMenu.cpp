@@ -500,10 +500,6 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
             WriteTrace(TraceUserInterface, TraceDebug, "ID_OPTIONS_FULLSCREEN b 3");
             UISettingsSaveBool(UserInterface_InFullScreen, true);
             WriteTrace(TraceUserInterface, TraceDebug, "ID_OPTIONS_FULLSCREEN b 6");
-
-#ifdef RETROACHIEVEMENTS
-            RA_UpdateHWnd(reinterpret_cast<HWND>(m_Gui->GetWindowHandle()));
-#endif
         }
         WriteTrace(TraceUserInterface, TraceDebug, "ID_OPTIONS_FULLSCREEN 1");
         break;
