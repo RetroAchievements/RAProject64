@@ -1,10 +1,6 @@
-<p align="center">
-  <img src="./Docs/img/icon.png" alt="logo" width="200" />
-</p>
+# RAProject64
 
-# Project64
-
-Project64 is a free and open-source emulator for the Nintendo 64 and Nintendo 64 Disk Drive written in C++ currently only for Windows (planned support for other platforms in the future).
+RAProject64 is a fork of Project64, a free and open-source emulator for the Nintendo 64 and Nintendo 64 Disk Drive written in C++ currently only for Windows (planned support for other platforms in the future).
 
 ## Features
 
@@ -14,23 +10,11 @@ Project64 is a free and open-source emulator for the Nintendo 64 and Nintendo 64
 - Controller support
 - Great language support
 - Support for many popular N64 emulator plugins
-
-## Screenshot
-
-<p align="center">
-  <img src="./Docs/img/screen.png" alt="screenshot" width="400" />
-</p>
+- RetroAchievements support (requires an account)
 
 ## Installation
 
-Installer for the latest stable releases are available [here](https://www.pj64-emu.com/windows-downloads).
-
-Download nightly builds [here](https://www.pj64-emu.com/nightly-builds).
-
-AppVeyor (Windows x86/x64): [![Build status](https://ci.appveyor.com/api/projects/status/sbtwyhaexslyhgx3?svg=true
-)](https://ci.appveyor.com/project/project64/project64/branch/develop)
-
-*Side note: 64-bit builds are considered experimental and aren't currently supported*
+Installer for the latest stable releases are available [here](https://retroachievements.org/download.php#rap64).
 
 ## Minimum requirements
 
@@ -49,13 +33,7 @@ AppVeyor (Windows x86/x64): [![Build status](https://ci.appveyor.com/api/project
 
 ## Support
 
-For support, we ask all users read our [support document](./Docs/SUPPORT.md). Read this ***before*** opening issues.
-
-Please join our [Discord server](https://discord.gg/Cg3zquF) for support, questions, etc.
-
-## Changelog
-
-If you would like to see a changelog that is available [here](./Docs/CHANGELOG.md).
+Please join our [Discord server](https://discord.gg/dq2E4hE) for support, questions, etc.
 
 ## Dependencies
 
@@ -67,15 +45,9 @@ If you would like to see a changelog that is available [here](./Docs/CHANGELOG.m
 - DirectX: Copyright (C) Microsoft
 - [Windows Template Library](https://wtl.sourceforge.io/): Common Public License
 
-## Contributing
+## Original maintainers and contributors
 
-Contributions are always welcome!
-
-See the [contributing](./.github/CONTRIBUTING.md) file for ways to get started.
-
-## Maintainers and contributors
-
-- [@Project64](https://www.github.com/project64) - Zilmar - current maintainer
+- Zilmar - current maintainer of the main version
 - Jabo - Previous contributor
 - Smiff - Previous contributor
 - Gent - Previous contributor
@@ -83,8 +55,8 @@ See the [contributing](./.github/CONTRIBUTING.md) file for ways to get started.
 Also see the list of [community contributors](https://github.com/project64/project64/contributors).
 
 ## 🔗 Links
-- [Website](https://pj64-emu.com)
-- [Discord](https://discord.gg/Cg3zquF)
+- [Website](https://retroachievements.org/)
+- [Discord](https://discord.gg/dq2E4hE)
 
 ## License
 
